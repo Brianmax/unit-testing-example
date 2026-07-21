@@ -33,4 +33,7 @@ public class CreateDiscountRequest {
 
     @NotNull
     private Boolean active;
+
+    @Positive
+    private BigDecimal maxDiscountAmount;
 }

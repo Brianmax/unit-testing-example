@@ -33,6 +33,7 @@ public class DiscountService {
         discount.setType(request.getType());
         discount.setValue(request.getValue());
         discount.setMinOrderAmount(request.getMinOrderAmount());
+        discount.setMaxDiscountAmount(request.getMaxDiscountAmount());
         discount.setActive(request.getActive());
 
         Discount saved = discountRepository.save(discount);

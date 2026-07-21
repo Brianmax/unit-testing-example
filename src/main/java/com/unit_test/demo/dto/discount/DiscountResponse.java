@@ -18,6 +18,7 @@ public class DiscountResponse {
     private final DiscountType type;
     private final BigDecimal value;
     private final BigDecimal minOrderAmount;
+    private final BigDecimal maxDiscountAmount;
     private final boolean active;
     private final Instant createdAt;
     private final Instant updatedAt;

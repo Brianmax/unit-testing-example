@@ -1,0 +1,1 @@
+alter table catalog.discounts add column max_discount_amount decimal(12,2);

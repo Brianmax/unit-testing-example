@@ -50,3 +50,5 @@ public class DiscountController {
         return ResponseEntity.ok(ApiResponse.success(response, httpRequest.getRequestURI()));
     }
 }
+
+// 50% de descuento en tu orden, hasta 100 dolares de descuento

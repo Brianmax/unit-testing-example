@@ -32,4 +32,7 @@ public class Discount extends BaseEntity {
 
     @Column(nullable = false)
     private boolean active;
+
+    @Column(name = "max_discount_amount", precision = 12, scale = 2)
+    private BigDecimal maxDiscountAmount;
 }

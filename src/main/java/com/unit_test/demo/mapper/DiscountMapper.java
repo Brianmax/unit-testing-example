@@ -15,6 +15,7 @@ public final class DiscountMapper {
                 discount.getType(),
                 discount.getValue(),
                 discount.getMinOrderAmount(),
+                discount.getMaxDiscountAmount(),
                 discount.isActive(),
                 discount.getCreatedAt(),
                 discount.getUpdatedAt());
