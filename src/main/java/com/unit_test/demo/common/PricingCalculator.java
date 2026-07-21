@@ -40,9 +40,11 @@ public class PricingCalculator {
             case FIXED_AMOUNT -> discount.getValue();
         };
 
+        BigDecimal capped = rawDiscount.min(subtotal);
         if(discount.getMaxDiscountAmount() != null) {
-            rawDiscount = rawDiscount.min(discount.getMaxDiscountAmount());
+            capped = rawDiscount.min(discount.getMaxDiscountAmount());
         }
-        return rawDiscount.max(BigDecimal.ZERO).setScale(MONEY_SCALE, ROUNDING_MODE);
+        BigDecimal ans = capped.max(BigDecimal.ZERO).setScale(MONEY_SCALE, ROUNDING_MODE);
+        return ans;
     }
 }
