@@ -4,6 +4,7 @@ import com.unit_test.demo.dto.discount.CreateDiscountRequest;
 import com.unit_test.demo.dto.discount.DiscountResponse;
 import com.unit_test.demo.entity.Discount;
 import com.unit_test.demo.entity.DiscountType;
+import com.unit_test.demo.exception.DuplicateResourceException;
 import com.unit_test.demo.repository.DiscountRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +16,12 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.nio.file.attribute.DosFileAttributes;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -49,7 +51,7 @@ class DiscountServiceTest {
     }
 
     @Test
-    // Crear y persistir todos los campos, incluidos el maxDiscountAmount
+    // Crear y persistir todos los campos, incluido el maxDiscountAmount
     void create() {
         // act
         CreateDiscountRequest discountRequest = createRequest(DiscountType.PERCENTAGE);
@@ -76,7 +78,35 @@ class DiscountServiceTest {
     }
 
     @Test
+    void createThrowsDuplicateResourceExceptionWhenCodeAlreadyExists() {
+        CreateDiscountRequest request = createRequest(DiscountType.PERCENTAGE);
+        when(discountRepository.existsByCode("SUMMER20")).thenReturn(true);
+
+        assertThatThrownBy(() -> discountService.create(request))
+                .isInstanceOf(DuplicateResourceException.class);
+
+        verify(discountRepository, never()).save(any());
+    }
+
+    @Test
     void getByCode() {
+        Discount discount = new Discount();
+        discount.setCode("WELCOME10");
+        discount.setType(DiscountType.PERCENTAGE);
+        discount.setValue(new BigDecimal("10"));
+        discount.setActive(true);
+
+        when(discountRepository.findByCode("WELCOME10")).thenReturn(Optional.of(discount));
+
+        DiscountResponse discountResponse = discountService.getByCode("WELCOME10");
+
+        assertThat(discountResponse.getCode()).isEqualTo("WELCOME10");
+        assertThat(discountResponse.getMaxDiscountAmount()).isNull();
+    }
+
+    @Test
+    void getByCodeThrowsResourceNotFoundException() {
+
     }
 
     @Test
