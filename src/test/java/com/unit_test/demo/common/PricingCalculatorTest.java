@@ -26,6 +26,7 @@ class PricingCalculatorTest {
     }
     @Test
     // descuento sale menor a la cantidad que se tiene que pagar
+    // happy-path
     void percentageDiscount() {
         // Assert
         Discount discount = createDiscount(
@@ -59,7 +60,13 @@ class PricingCalculatorTest {
         Discount discount = new Discount();
         discount.setType(DiscountType.FIXED_AMOUNT);
         discount.setValue(new BigDecimal("50"));
-        discount.setMaxDiscountAmount(new BigDecimal("100"));
         discount.setActive(true);
+
+        List<LineItem> lineItems = lineItems(new BigDecimal("400"));
+
+        PricingResult pricingResult = calculator.calculate(lineItems, discount);
+
+        assertThat(pricingResult.discountAmount()).isEqualByComparingTo("50");
+        assertThat(pricingResult.discountedTotal()).isEqualByComparingTo("350");
     }
 }
