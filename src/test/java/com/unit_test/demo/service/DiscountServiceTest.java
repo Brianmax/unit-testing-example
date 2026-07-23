@@ -17,8 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.*;
+
 
 @ExtendWith(MockitoExtension.class)
 class DiscountServiceTest {
@@ -59,6 +61,18 @@ class DiscountServiceTest {
 
         DiscountResponse response = discountService.create(discountRequest);
 
+        ArgumentCaptor<Discount> captor = ArgumentCaptor.forClass(Discount.class);
+        verify(discountRepository).save(captor.capture());
+        Discount persisted = captor.getValue();
+
+
+
+        assertThat(persisted.getCode()).isEqualTo("SUMMER20");
+        assertThat(persisted.getType()).isEqualTo(DiscountType.PERCENTAGE);
+        assertThat(persisted.getValue()).isEqualByComparingTo("20");
+        assertThat(persisted.getMinOrderAmount()).isEqualByComparingTo("50");
+
+        assertThat(response.getCode()).isEqualTo("SUMMER20");
     }
 
     @Test
