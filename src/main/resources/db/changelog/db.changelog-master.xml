@@ -13,5 +13,6 @@
     <include file="db/changelog/changes/900-seed-demo-data.sql" relativeToChangelogFile="false"/>
     <include file="db/changelog/changes/901-create-schemas.sql" relativeToChangelogFile="false"/>
     <include file="db/changelog/changes/902-move-tables-to-schemas.sql" relativeToChangelogFile="false"/>
+    <include file="db/changelog/changes/903-add-discount-max-amount.sql" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

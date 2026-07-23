@@ -51,4 +51,3 @@ public class DiscountController {
     }
 }
 
-// 50% de descuento en tu orden, hasta 100 dolares de descuento
